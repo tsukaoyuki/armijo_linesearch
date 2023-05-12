@@ -112,17 +112,6 @@ while (batch_size>=min_batch_size):
             if 'momentum' in alg_name:
                 print('m=',float(alg_name[-4:]))
                 l=train_net(dataset_name,net,train_set,test_set,optimizer=optim.SGD(net.parameters(),lr=0.1,momentum=float(alg_name[-4:]),weight_decay=weight_decay),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size)
-            elif 'KFAC' in alg_name:
-                print('-------')
-                l=train_net(dataset_name,net,train_set,test_set,optimizer = KFACOptimizer(net,
-                              lr=0.01,
-                              momentum=args.momentum,
-                              stat_decay=args.stat_decay,
-                              damping=args.damping,
-                              kl_clip=args.kl_clip,
-                              weight_decay=weight_decay,
-                              TCov=args.TCov,
-                              TInv=args.TInv),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size)
             elif 'SPS' in alg_name:
                 l=train_net(dataset_name,net,train_set,test_set,optimizer=sps.Sps(net.parameters(),n_batches_per_epoch=n_batches_per_epoch,c=float(alg_name[-4:]),device=device),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size)
             elif alg_name=='SGD':
