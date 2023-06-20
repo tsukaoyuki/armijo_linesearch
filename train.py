@@ -28,6 +28,7 @@ parser.add_argument('--inistep',type=float,help='初めのステップサイズ'
 parser.add_argument('--iniepoch',type=int,help='どれくらい定数でやるか',default=0)
 parser.add_argument('--momentum', default=0.9, type=float)
 parser.add_argument('--weight_decay', default=3e-3, type=float)
+parser.add_argument('--c',default=0.1,type=float)
 
 
 #parser.add_argument('--name',type=str,help='wandb保存名前',default='test')
@@ -51,6 +52,7 @@ max_batch_size=128
 min_batch_size=128
 weight_decay=0
 resnet_num=34
+c=args.c
 train_set,test_set=tu.get_dataset(dataset_name)
 
 
@@ -80,7 +82,7 @@ iniepoch=int(args.iniepoch)
 #alg_list=['SPS_0.50']
 #alg_list=['SGD']
 #alg_list=['Adam','SGD','SGD+Armijo_c_1e-1',]
-alg_list=['SGD+Armijo_c_1e-1','momentum+Armijo_m_0.90_c_1e-1','SGD','AdamW','RMSprop','Adam','momentum_m_0.90']
+alg_list=['SGD+Armijo']
 #alg_list=['SGD+Armijo_c_1e-1']
 #alg_list=['momentum_m_0.90']
 
@@ -99,13 +101,12 @@ while (batch_size>=min_batch_size):
 
         file_name=tu.get_file_name(dataset_name,batch_size,alg_name)
         print(f'file_name: {file_name}')
-        print('\n'+alg_name)
         if 'Armijo' in alg_name:
             if 'momentum' in alg_name:
                 l=train_net(dataset_name,net,train_set,test_set,optimizer=mls.SGD(device,net.parameters(),n_batches_per_epoch=n_batches_per_epoch,weight_decay=weight_decay,momentum=float(alg_name[-11:-7]),c=float(alg_name[-4:])),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size)
             else:
-                print('c=',float(alg_name[-4:]))
-                l=train_net(dataset_name,net,train_set,test_set,optimizer=mls.SGD(device,net.parameters(),weight_decay=weight_decay,n_batches_per_epoch=n_batches_per_epoch,c=float(alg_name[-4:])),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size,)
+                print('c=',c)
+                l=train_net(dataset_name,net,train_set,test_set,optimizer=mls.SGD(device,net.parameters(),weight_decay=weight_decay,n_batches_per_epoch=n_batches_per_epoch,c=c),n_iter=count,device=device,alg_name=alg_name,batch_size=batch_size,)
         else:
             
             print(f'lr={lr},batch size={batch_size}.weight decay={weight_decay}')
