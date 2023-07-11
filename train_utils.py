@@ -263,7 +263,6 @@ def train_sfo(dataset_name,net,train_set,test_set,optimizer,n_iter,device,alg_na
             grad_norms.append(grad_norm)
             not_found_inepoch+=not_found
 
-
             if grad_norm<=0.01:
                 print(f'e:{epoch},l:{train_losses},t_acc{train_acc},v_acc:{val_acc},val_acc_5:{val_acc_5},α:{step_size_list[-1]},g:{grad_norm},t:{timesCPU[-1]},n_f:{not_found_inepoch}')
                 timesCPU=np.asarray(timesCPU)
