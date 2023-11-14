@@ -49,28 +49,20 @@ class SGD(torch.optim.Optimizer):
         def closure_deterministic():
             with ut.random_seed_torch(int(seed)):
                 return closure()
-
         batch_step_size = self.state['step_size']
-
         # get loss and compute gradients
         loss = closure_deterministic()
         loss.backward()
-
         # increment # forward-backward calls
         self.state['n_forwards'] += 1
         self.state['n_backwards'] += 1
-
-        
-        
         # loop over parameter groups
+        
         for group in self.param_groups:
             params = group["params"]
-            
             momentum_buffer_list = []
             for p in group['params']:
-               
                 state = self.state[p]
-                
                 if 'momentum_buffer' not in state:
                     momentum_buffer_list.append(None)
                 else:
@@ -127,9 +119,6 @@ class SGD(torch.optim.Optimizer):
                             else:
                                 self.not_found+=1
 
-
-                        
-                    
                     # if line search exceeds max_epochs
                     if found == 0:
                         result_step_size=1e-5
@@ -145,7 +134,6 @@ class SGD(torch.optim.Optimizer):
             self.not_found=0
 
         return loss
-    
 
     def sgd(params: List[Tensor],params_current: List[Tensor],
                        grad_current: List[Tensor],
