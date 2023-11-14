@@ -177,11 +177,7 @@ def train_net(dataset_name,net,train_set,test_set,optimizer,n_iter,device,alg_na
             optimizer.zero_grad()
         
             closure=lambda:nn.CrossEntropyLoss(reduction='mean')(net(xx),yy)
-            step_size,loss,grad_norm,not_found=optimizer.step(closure)
-            step_size_list.append(step_size)
-            grad_norm=grad_norm.to('cpu').detach().numpy().copy()
-            grad_norms.append(grad_norm)
-            not_found_inepoch+=not_found
+            loss=optimizer.step(closure)
 
 
         train_loss=compute_loss(net,train_set,device)
@@ -198,7 +194,7 @@ def train_net(dataset_name,net,train_set,test_set,optimizer,n_iter,device,alg_na
         pval_acc='{:.5f}'.format(val_acc[-1])
         pval_acc_5='{:.5f}'.format(val_acc_5[-1])
         pgrad_norm='{:.5f}'.format(grad_norm)
-        print(f'e:{epoch},l:{ptrain_losses},t_acc{ptrain_acc},v_acc:{pval_acc},val_acc_5:{pval_acc_5},α:{step_size_list[-1]},g:{pgrad_norm},t:{timesCPU[-1]},n_f:{not_found_inepoch}')
+        print(f'e:{epoch},l:{ptrain_losses},t_acc{ptrain_acc},v_acc:{pval_acc},val_acc_5:{pval_acc_5}')
 
 
     timesCPU=np.asarray(timesCPU)
