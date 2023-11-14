@@ -198,22 +198,18 @@ def train_net(dataset_name,net,train_set,test_set,optimizer,n_iter,device,alg_na
 
 
     timesCPU=np.asarray(timesCPU)
-    step_size_list=np.asarray(step_size_list)
     train_losses=np.asarray(train_losses)
     train_acces=np.asarray(train_acc)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     test_acces=np.asarray(val_acc)
     epochs=np.asarray(epochs)
-    grad_norms=np.asarray(grad_norms)
 
     dict_result = {'algorithm' : alg_name,
-                'step_size':step_size_list,
                 'dataset' : dataset_name,
                 'train_losses': train_losses,
                 'train_acces': train_acces,
                 'test_acces':test_acces,
                 'timesCPU': timesCPU,
                 'epochs': epochs,
-                'grad_norms':grad_norms}
 
     return dict_result
 
