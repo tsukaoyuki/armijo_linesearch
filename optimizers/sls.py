@@ -4,7 +4,6 @@ import time
 from torch import Tensor
 from typing import List, Optional
 import math
-
 import optimizers.utils as ut
 
 class SGD(torch.optim.Optimizer):
@@ -145,7 +144,7 @@ class SGD(torch.optim.Optimizer):
             return_not_found=self.not_found
             self.not_found=0
 
-        return result_step_size,loss,ut.compute_norm(grad_current,group['device']),return_not_found,
+        return loss
     
 
     def sgd(params: List[Tensor],params_current: List[Tensor],
