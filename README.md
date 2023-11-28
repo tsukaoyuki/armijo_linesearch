@@ -12,7 +12,7 @@ import optimizers.sls
 opt = sls.SGD(model.parameters())
 for epoch in range(100):
       # create loss closure
-      closure = lambda : torch.nn.crossEntropyLoss()(model(X), y)
+      closure = lambda : torch.nn.CrossEntropyLoss()(model(X), y)
 
       # update parameters
       opt.zero_grad()
