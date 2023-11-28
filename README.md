@@ -5,7 +5,7 @@
 
 
 ### Usage
-Use `Sls` in your code by adding the following script.
+Use linesearch in your code by adding the following script.
 
 ```python
 import optimizers.sls
